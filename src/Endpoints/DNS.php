@@ -44,7 +44,7 @@ class DNS implements API
         bool $proxied = true,
         string $priority = '',
         array $data = []
-    ): bool {
+    ): \stdClass {
         $options = [
             'type' => $type,
             'name' => $name,
