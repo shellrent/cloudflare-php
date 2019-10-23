@@ -33,7 +33,7 @@ class DNS implements API
      * @param bool $proxied
      * @param string $priority
      * @param array $data
-     * @return bool
+     * @return \stdClass
      */
     public function addRecord(
         string $zoneID,
@@ -68,11 +68,7 @@ class DNS implements API
 
         $this->body = json_decode($user->getBody());
 
-        if (isset($this->body->result->id)) {
-            return true;
-        }
-
-        return false;
+        return $this->body->result;
     }
 
     public function listRecords(
