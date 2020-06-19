@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/cloudflare/cloudflare-php.svg?branch=master)](https://travis-ci.org/cloudflare/cloudflare-php)
 
-See: ([cloudflare/cloudflare-php](https://github.com/cloudflare/cloudflare-php))
+See: [cloudflare/cloudflare-php](https://github.com/cloudflare/cloudflare-php)
 
 # Cloudflare SDK: added by Shellrent
 
