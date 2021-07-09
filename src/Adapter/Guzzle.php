@@ -90,4 +90,32 @@ class Guzzle implements Adapter
 
         return $response;
     }
+    
+	/**
+	 * @SuppressWarnings(PHPMD.StaticAccess)
+	 */
+	public function requestMultiPart(string $method, string $uri, array $data = [], array $headers = []) {
+        if (!in_array($method, ['get', 'post', 'put', 'patch', 'delete'])) {
+            throw new \InvalidArgumentException('Request method must be get, post, put, patch, or delete');
+        }
+		
+        $multipart = [];
+        foreach( $data as $key => $value ) {
+        	$multipart[] = [
+		        'name' => $key,
+		        'contents' => $value
+	        ];
+        }
+        
+        try {
+            $response = $this->client->$method($uri, [
+                'headers' => $headers,
+	            'multipart' => $multipart
+            ]);
+        } catch (RequestException $err) {
+            throw ResponseException::fromRequestException($err);
+        }
+
+        return $response;
+    }
 }
