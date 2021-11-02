@@ -67,8 +67,23 @@ class DNS implements API
         $user = $this->adapter->post('zones/' . $zoneID . '/dns_records', $options);
 
         $this->body = json_decode($user->getBody());
+        
+        $result = $this->body->result;
+        
+        if( !( $result instanceof \stdClass ) ) {
+        	$errorMessage = '';
+        	
+        	if( is_array( $result ) ) {
+		        $errorMessage.= implode( $result );
+		        
+	        } elseif( is_string( $result ) ) {
+		        $errorMessage.= $result;
+	        }
+        	
+	        throw new EndpointException( sprintf( 'Unexpected add record result. %s', $errorMessage ) );
+        }
 
-        return $this->body->result;
+        return $result;
     }
 
     public function listRecords(
