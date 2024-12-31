@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "id": "2c0fc9fa937b11eaa1b71c4d701ab86e",
+    "created_on": "2020-01-01T08:00:00Z",
+    "description": "",
+    "kind": "ip",
+    "modified_on": "2020-01-10T14:00:00Z",
+    "name": "ip-allowlist",
+    "num_items": 10,
+    "num_referencing_filters": 2
+  }
+}
