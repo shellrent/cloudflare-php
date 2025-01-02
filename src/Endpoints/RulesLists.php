@@ -18,15 +18,15 @@ class RulesLists implements API
 
     public function getLists(string $accountId)
     {
-        $response = $this->adapter->get('/accounts/' . $accountId . '/rules/lists');
+        $response = $this->adapter->get('accounts/' . $accountId . '/rules/lists');
         $this->body = json_decode($response->getBody());
 
-        return (object)['result' => $this->body->result];
+        return $this->body->result;
     }
 
     public function getListDetails(string $accountId, string $listId)
     {
-        $response = $this->adapter->get('/accounts/' . $accountId . '/rules/lists/' . $listId);
+        $response = $this->adapter->get('accounts/' . $accountId . '/rules/lists/' . $listId);
         $this->body = json_decode($response->getBody());
 
         return $this->body->result;
@@ -47,10 +47,10 @@ class RulesLists implements API
             $options['cursor'] = $cursor;
         }
 
-        $response = $this->adapter->get('/accounts/' . $accountId . '/rules/lists/' . $listId . '/items', $options);
+        $response = $this->adapter->get('accounts/' . $accountId . '/rules/lists/' . $listId . '/items', $options);
         $this->body = json_decode($response->getBody());
 
-        return (object)['result' => $this->body->result, 'result_info' => $this->body->result_info];
+        return (object)['result' => $this->body->result, 'result_info' => $this->body->result_info ?? null];
     }
 
     public function createList(string $accountId, string $kind, string $name, string $description = '')
@@ -64,7 +64,7 @@ class RulesLists implements API
             $options['description'] = $description;
         }
 
-        $response = $this->adapter->post('/accounts/' . $accountId . '/rules/lists', $options);
+        $response = $this->adapter->post('accounts/' . $accountId . '/rules/lists', $options);
         $this->body = json_decode($response->getBody());
 
         return $this->body->result;
@@ -74,19 +74,24 @@ class RulesLists implements API
     {
         $options = [];
         foreach ($ip as $ipAddress) {
-            $options['ip'] = $ipAddress;
+            $options[] = ['ip' => $ipAddress];
         }
 
-        $response = $this->adapter->post('/accounts/' . $accountId . '/rules/lists/' . $listId . '/items', $options);
+        $response = $this->adapter->post('accounts/' . $accountId . '/rules/lists/' . $listId . '/items', $options);
         $this->body = json_decode($response->getBody());
 
         return $this->body->result;
     }
 
-    public function deleteListItem(string $accountId, string $listId, string $item = '')
+    public function deleteListItem(string $accountId, string $listId, array $itemIds)
     {
 
-        $response = $this->adapter->delete('/accounts/' . $accountId . '/rules/lists/' . $listId . '/items' . ($item ? '/' . $item : ''));
+        $options = ['items' => []];
+        foreach ($itemIds as $itemId) {
+            $options['items'][] = ['id' => $itemId];
+        }
+
+        $response = $this->adapter->delete('accounts/' . $accountId . '/rules/lists/' . $listId . '/items', $options);
         $this->body = json_decode($response->getBody());
 
         return $this->body->result;
@@ -94,7 +99,7 @@ class RulesLists implements API
 
     public function getOperationStatus(string $accountId, string $operationId)
     {
-        $response = $this->adapter->get('/accounts/' . $accountId . '/rules/lists/bulk_operations/' . $operationId);
+        $response = $this->adapter->get('accounts/' . $accountId . '/rules/lists/bulk_operations/' . $operationId);
         $this->body = json_decode($response->getBody());
 
         return $this->body->result;
