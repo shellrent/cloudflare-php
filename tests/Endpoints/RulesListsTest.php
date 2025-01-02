@@ -41,7 +41,7 @@ class RulesListsTest extends TestCase
         $response = $this->getPsr7JsonResponseForFixture('Endpoints/deleteRulesList.json');
 
         $mock = $this->getMockBuilder(\Cloudflare\API\Adapter\Adapter::class)->getMock();
-        $mock->method('post')->willReturn($response);
+        $mock->method('delete')->willReturn($response);
 
         $mock->expects($this->once())
             ->method('delete')
