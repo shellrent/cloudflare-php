@@ -52,7 +52,7 @@ class RulesListsTest extends TestCase
         $result = $rulesLists->getLists('01a7362d577a6c3019a474fd6f485823');
 
         $this->assertObjectHasAttribute('result', $result);
-        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $result->result[0]->id);
+        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $result[0]->id);
 
         $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $rulesLists->getBody()->result[0]->id);
     }
