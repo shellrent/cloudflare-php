@@ -53,7 +53,7 @@ class RulesListsTest extends TestCase
         $result = $rulesLists->deleteList('01a7362d577a6c3019a474fd6f485823', '2c0fc9fa937b11eaa1b71c4d701ab86e');
 
         $this->assertEquals(true, $result->success);
-        $this->assertEquals(true, $rulesLists->getBody()->result->success);
+        $this->assertEquals(true, $rulesLists->getBody()->success);
     }
 
     public function testGetRulesLists()
