@@ -52,8 +52,8 @@ class RulesListsTest extends TestCase
         $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
         $result = $rulesLists->deleteList('01a7362d577a6c3019a474fd6f485823', '2c0fc9fa937b11eaa1b71c4d701ab86e');
 
-        $this->assertEquals(true, $result->success);
-        $this->assertEquals(true, $rulesLists->getBody()->success);
+        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $result->id);
+        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $rulesLists->getBody()->result->id);
     }
 
     public function testGetRulesLists()

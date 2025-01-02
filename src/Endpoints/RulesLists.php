@@ -76,7 +76,7 @@ class RulesLists implements API
         $response = $this->adapter->delete('accounts/' . $accountId . '/rules/lists/' . $listId);
         $this->body = json_decode($response->getBody());
 
-        return $this->body;
+        return $this->body->result;
     }
 
     public function createListItem(string $accountId, string $listId, array $ip)
