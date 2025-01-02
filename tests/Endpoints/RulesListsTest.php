@@ -35,6 +35,27 @@ class RulesListsTest extends TestCase
         $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $rulesLists->getBody()->result->id);
     }
 
+    public function testDeleteRulesList()
+    {
+
+        $response = $this->getPsr7JsonResponseForFixture('Endpoints/deleteRulesList.json');
+
+        $mock = $this->getMockBuilder(\Cloudflare\API\Adapter\Adapter::class)->getMock();
+        $mock->method('post')->willReturn($response);
+
+        $mock->expects($this->once())
+            ->method('delete')
+            ->with(
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e')
+            );
+
+        $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
+        $result = $rulesLists->deleteList('01a7362d577a6c3019a474fd6f485823', '2c0fc9fa937b11eaa1b71c4d701ab86e');
+
+        $this->assertEquals(true, $result->success);
+        $this->assertEquals(true, $rulesLists->getBody()->result->success);
+    }
+
     public function testGetRulesLists()
     {
         $response = $this->getPsr7JsonResponseForFixture('Endpoints/listRulesLists.json');
