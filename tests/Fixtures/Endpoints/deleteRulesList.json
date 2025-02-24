@@ -1,0 +1,18 @@
+{
+  "errors": [
+    {
+      "code": 1000,
+      "message": "message"
+    }
+  ],
+  "messages": [
+    {
+      "code": 1000,
+      "message": "message"
+    }
+  ],
+  "result": {
+    "id": "2c0fc9fa937b11eaa1b71c4d701ab86e"
+  },
+  "success": true
+}

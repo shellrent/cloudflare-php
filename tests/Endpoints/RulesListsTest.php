@@ -18,7 +18,7 @@ class RulesListsTest extends TestCase
         $mock->expects($this->once())
             ->method('post')
             ->with(
-                $this->equalTo('/accounts/01a7362d577a6c3019a474fd6f485823/rules/lists'),
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists'),
                 $this->equalTo([
                     'kind' => 'ip',
                     'name' => 'ip-allowlist',
@@ -35,6 +35,27 @@ class RulesListsTest extends TestCase
         $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $rulesLists->getBody()->result->id);
     }
 
+    public function testDeleteRulesList()
+    {
+
+        $response = $this->getPsr7JsonResponseForFixture('Endpoints/deleteRulesList.json');
+
+        $mock = $this->getMockBuilder(\Cloudflare\API\Adapter\Adapter::class)->getMock();
+        $mock->method('delete')->willReturn($response);
+
+        $mock->expects($this->once())
+            ->method('delete')
+            ->with(
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e')
+            );
+
+        $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
+        $result = $rulesLists->deleteList('01a7362d577a6c3019a474fd6f485823', '2c0fc9fa937b11eaa1b71c4d701ab86e');
+
+        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $result->id);
+        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $rulesLists->getBody()->result->id);
+    }
+
     public function testGetRulesLists()
     {
         $response = $this->getPsr7JsonResponseForFixture('Endpoints/listRulesLists.json');
@@ -45,15 +66,13 @@ class RulesListsTest extends TestCase
         $mock->expects($this->once())
             ->method('get')
             ->with(
-                $this->equalTo('/accounts/01a7362d577a6c3019a474fd6f485823/rules/lists')
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists')
             );
 
         $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
         $result = $rulesLists->getLists('01a7362d577a6c3019a474fd6f485823');
 
-        $this->assertObjectHasAttribute('result', $result);
-        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $result->result[0]->id);
-
+        $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $result[0]->id);
         $this->assertEquals('2c0fc9fa937b11eaa1b71c4d701ab86e', $rulesLists->getBody()->result[0]->id);
     }
 
@@ -68,7 +87,7 @@ class RulesListsTest extends TestCase
         $mock->expects($this->once())
             ->method('get')
             ->with(
-                $this->equalTo('/accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e')
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e')
             );
 
         $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
@@ -91,7 +110,7 @@ class RulesListsTest extends TestCase
         $mock->expects($this->once())
             ->method('get')
             ->with(
-                $this->equalTo('/accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e/items'),
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e/items'),
                 $this->equalTo([
                     'per_page' => 20,
                 ])
@@ -117,7 +136,7 @@ class RulesListsTest extends TestCase
         $mock->expects($this->once())
             ->method('post')
             ->with(
-                $this->equalTo('/accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e/items')
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e/items')
             );
 
         $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
@@ -139,11 +158,11 @@ class RulesListsTest extends TestCase
         $mock->expects($this->once())
             ->method('delete')
             ->with(
-                $this->equalTo('/accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e/items')
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/2c0fc9fa937b11eaa1b71c4d701ab86e/items')
             );
 
         $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
-        $result = $rulesLists->deleteListItem('01a7362d577a6c3019a474fd6f485823', '2c0fc9fa937b11eaa1b71c4d701ab86e');
+        $result = $rulesLists->deleteListItem('01a7362d577a6c3019a474fd6f485823', '2c0fc9fa937b11eaa1b71c4d701ab86e', ['6as9450mma215q6so7p79dd981r4ee09']);
 
         $this->assertEquals('4da8780eeb215e6cb7f48dd981c4ea02', $result->operation_id);
         $this->assertEquals('4da8780eeb215e6cb7f48dd981c4ea02', $rulesLists->getBody()->result->operation_id);
@@ -159,7 +178,7 @@ class RulesListsTest extends TestCase
         $mock->expects($this->once())
             ->method('get')
             ->with(
-                $this->equalTo('/accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/bulk_operations/4da8780eeb215e6cb7f48dd981c4ea02')
+                $this->equalTo('accounts/01a7362d577a6c3019a474fd6f485823/rules/lists/bulk_operations/4da8780eeb215e6cb7f48dd981c4ea02')
             );
 
         $rulesLists = new \Cloudflare\API\Endpoints\RulesLists($mock);
